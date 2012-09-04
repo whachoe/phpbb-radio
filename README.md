@@ -19,7 +19,5 @@ All urls are kept in a Mongodb (http://www.mongodb.org/).
 *    web/api: Contains the API which gets called by javascript to get new tracks. Here the good stuff happens.
 *    web/js/radio.js: Contains all the javascript logic to get music from the API, play it and update the view dynamically
 
-### Demo Site
+### Demo Site:
 http://radio.breakzforum.be
-
-
