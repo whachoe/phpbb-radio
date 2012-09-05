@@ -1,9 +1,13 @@
 <?php
-  // Mysql DB
-  $user = 'your_user';
-  $pw   = 'your_pw';
-  $options = array(
-      PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-  );
-
-  $dsn = 'mysql:unix_socket=/tmp/mysql.sock;dbname=your_dbname';
+  include_once 'db_config.php';
+  
+  // Mongo DB
+  define('MONGO_DB', "breakzradio");
+  define('MONGO_COLLECTION', "tracks");
+  
+  
+  // Various constants used in the website
+  define("CONTACTEMAIL", "cjpa@breakzforum.be");
+  define("CONTACTTITLE", "Write a love-letter to cjpa");
+  define("SITE_TITLE", "Breakz Radio");
+  
