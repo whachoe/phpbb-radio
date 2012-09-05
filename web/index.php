@@ -1,8 +1,10 @@
 <?php
+include_once '../config.php';
+
 // Mongo DB
 $m = new Mongo();
-$mongodb = $m->breakzradio;
-$collection = $mongodb->tracks;
+$mongodb = $m->selectDB(MONGO_DB);
+$collection = $mongodb->selectCollection(MONGO_COLLECTION);
 
 $totalTrackCount = $collection->count();
 $totalActiveCount = $collection->count(array("available" => true));
@@ -14,7 +16,6 @@ function filterbox_forum() {
   $distinct_forums = $mongodb->command(
           array("distinct" => "tracks", 
                 "key" => "forum_id",
-              
                 // We're filtering out a bunch of forum-id's which are private
                 "query" => array('forum_id' => array('$nin'=> array("13","16","19","11","12")), 'available' => true)
               ));
@@ -33,7 +34,7 @@ function filterbox_forum() {
 
 <html>
   <head>
-    <title>Breakz Radio</title> 
+    <title><?php echo SITE_TITLE ?></title> 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
     <meta http-equiv="Content-Language" content="en-us"> 
     <meta name="description" content="The Breakzforum.be Radio: Featuring the tracks posted on our forum">
@@ -55,7 +56,7 @@ function filterbox_forum() {
   </head>
   <body>
     <div id="wrapper">
-      <h1>Breakz Radio</h1>
+      <h1><?php echo SITE_TITLE ?></h1>
       <div id="musicplayer">
         <div id="information">
           <div id="song-title"><span>Song Title</span>&nbsp; </div>
@@ -133,7 +134,7 @@ function filterbox_forum() {
         <span>#Active: <strong><?php echo $totalActiveCount ?></strong></span>
         <span>#Inactive: <strong><?php echo $totalInactiveCount ?></strong></span>
         <span>#Total: <strong><?php echo $totalTrackCount ?></strong></span>
-        <a href="mailto:cjpa@breakzforum.be" title="Write a love-letter to cjpa" target="_blank" style="color: #B2BAC5; float: right; margin-right: 25px">Contact</a>
+        <a href="mailto:<?php echo CONTACTEMAIL ?>" title="<?php echo CONTACTTITLE ?>" target="_blank" style="color: #B2BAC5; float: right; margin-right: 25px">Contact</a>
       </div>
 
     </div>

@@ -7,11 +7,11 @@ class Track {
   function __construct() {
     // Mongo DB
     $this->m = new Mongo();
-    $this->mongodb = $this->m->breakzradio;
-    $this->collection = $this->mongodb->tracks;
+    $this->mongodb = $this->m->selectDB(MONGO_DB);
+    $this->collection = $this->mongodb->selectCollection(MONGO_COLLECTION);
   }
 
-
+  
   function getTrackAtPos($pos=0) {
     $track = $this->collection->find(array(
         'available' => true, 
@@ -56,7 +56,7 @@ class Track {
   }
   
   // This function does a few things that need to be done before we send a track to the javascript-player
-  function prepareForSending($track) {
+  private function prepareForSending($track) {
     if (!isset($track['_id']))
       throw new Exception ("Track not available");
     
@@ -69,7 +69,7 @@ class Track {
     $this->collection->save($track);
     
     // These are things only the views need to know
-    $track['id'] = $track['_id']->{'$id'};
+    $track['id'] = $track['_id']->__toString();
     $track['post_time'] = date("d M Y, h:i", $track['post_time']);
     switch ($track['type']) {
       case 'soundcloud_embed':

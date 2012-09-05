@@ -1,6 +1,9 @@
 /** MIXINS **/
-$panelwidth: 490px;
+$panelwidth:  490px;
 $panelheight: 280px;
+$textcolor:   #fff;
+
+
 
 @mixin slidingpanel {
   display: none;
@@ -14,12 +17,12 @@ $panelheight: 280px;
   
   opacity: 0.95;
   z-index: 120;
-  color: #fff;
+  color: $textcolor;
 
 }
 
 a[trackid] {
-  color: #fff;
+  color: $textcolor;
 }
 
 .ui-widget, .ui-jqgrid-title {
@@ -268,7 +271,7 @@ table#playlisttable {
 
 #times {
   height: 60px;
-  color: #fff;
+  color: $textcolor;
   float: left;
   width: 440px;
   padding: 0px 5px;
