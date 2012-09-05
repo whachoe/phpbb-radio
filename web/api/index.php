@@ -1,4 +1,5 @@
 <?php 
+  include_once '../../config.php';
   require '../../libs/RestServer.php';
   require 'apiController.php';
 

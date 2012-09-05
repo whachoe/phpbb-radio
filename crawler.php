@@ -2,12 +2,12 @@
 include_once 'config.php';
 require_once 'crawler_functions.php';
 
-$db = new PDO($dsn, $user, $pw, $options);
+$db = new PDO(MYSQL_DSN, MYSQL_USER, MYSQL_PW, $options);
 
 // Mongo DB
 $m = new Mongo();
-$mongodb = $m->breakzradio;
-$collection = $mongodb->tracks;
+$mongodb = $m->selectDB(MONGO_DB);
+$collection = $mongodb->selectCollection(MONGO_COLLECTION);
 
 // Indexes
 $collection->ensureIndex(array("url" => 1), array("unique" => 1, "dropDups" => 1));

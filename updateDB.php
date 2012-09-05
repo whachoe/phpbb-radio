@@ -2,20 +2,18 @@
 /**
 * Utility script: When we need to do some processing of mongo-db, i'll use this one and just adapt the code a bit
 */
-
-
 include_once 'config.php';
 include_once 'crawler_functions.php';
 
 
 
-
-$db = new PDO($dsn, $user, $pw, $options);
+// Mysql
+$db = new PDO(MYSQL_DSN, MYSQL_USER, MYSQL_PW, $options);
 
 // Mongo DB
 $m = new Mongo();
-$mongodb = $m->breakzradio;
-$collection = $mongodb->tracks;
+$mongodb = $m->selectDB(MONGO_DB);
+$collection = $mongodb->selectCollection(MONGO_COLLECTION);
 $collection->ensureIndex(array("url" => 1), array("unique" => 1, "dropDups" => 1));
 $collection->ensureIndex(array("available" => 1));
 

@@ -1,6 +1,6 @@
 /** MIXINS **/
 a[trackid] {
-  color: #fff; }
+  color: white; }
 
 .ui-widget, .ui-jqgrid-title {
   font-family: 'Josefin Sans',sans-serif;
@@ -51,7 +51,7 @@ h1 {
   white-space: nowrap;
   opacity: 0.95;
   z-index: 120;
-  color: #fff;
+  color: white;
   background-color: #151616; }
   #filters div {
     padding-left: 5px; }
@@ -74,7 +74,7 @@ h1 {
   white-space: nowrap;
   opacity: 0.95;
   z-index: 120;
-  color: #fff;
+  color: white;
   padding: 0; }
   #playlist center {
     position: relative;
@@ -235,7 +235,7 @@ table#playlisttable {
 
 #times {
   height: 60px;
-  color: #fff;
+  color: white;
   float: left;
   width: 440px;
   padding: 0px 5px;
