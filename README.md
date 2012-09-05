@@ -24,9 +24,6 @@ All urls are kept in a Mongodb (http://www.mongodb.org/).
 
         rewrite ^/api/.*$ /api/index.php last;
 
-### Demo Site
+### Demo Site:
 http://radio.breakzforum.be
-
-
-
 
