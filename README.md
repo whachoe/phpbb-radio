@@ -7,12 +7,14 @@ All urls are kept in a Mongodb (http://www.mongodb.org/).
 
 ### Requirements:
 *    PHP-5.3
-*    MongoDB
+*    MongoDB (on debian-based servers, the following is enough to get a working instance: `apt-get install mongodb`
 *    a PHPBB-forum
 *    Sass (http://sass-lang.com/) Not required but very handy to have. Makes working with CSS a lot more fun. just type sass --watch web/css/style.scss:web/css/style.css to automatically update your style.css file.
 
 
 ### Important files:
+*    config_db.php: Holds the credentials to your phpbb-database
+*    config.php: Various configuration options
 *    crawler.php: Connects to the mysql-database which hosts the phpbb-data, pulls out all the posts, parses them, checks the availability of the urls and finally saves them to Mongodb.
 *    check_availability.php: Checks an existing Mongodb and tests the availability of the urls that are stored inside.
 *    web/index.php: The web-frontend of the radio.

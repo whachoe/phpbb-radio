@@ -1,4 +1,5 @@
 <?php
+include_once '../../config.php';
 require_once '../../libs/Track.php';
 
 class apiController {
@@ -49,18 +50,13 @@ class apiController {
     }
   }
 
-	/**
-	 *
-	 * @url POST /message
-	 * @url PUT  /message
-	 */
-  /*
-	public function newMessage($data) {
-		// Do some validation here
-		file_put_contents(self::message_file_path, json_encode($data));
-
-		return true;
-	}
+  /**
+   * Get the Soundcloud API key
    * 
+   * @url GET /getsoundcloudapikey
    */
+//  public function getSoundcloudApikey() {
+//    return SOUNDCLOUD_API_KEY;
+//  }
+          
 }
