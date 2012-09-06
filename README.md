@@ -33,8 +33,9 @@ All urls are kept in a Mongodb (http://www.mongodb.org/).
 *   Make sure mongodb is running and then run (this will take a LONG time):
     php crawler.php >list.log
 *   When the crawler is done, go check out your radio: http://your-radio-domain
-
-
+*   I use the following line in crontab on my server to refresh the list each night:  
+    `* 3 * * * cd /path/to/the/source; php check_availability.php  && php crawler.php`
+  
+  
 ### Demo Site:
 http://radio.breakzforum.be
-
