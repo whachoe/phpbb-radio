@@ -34,7 +34,7 @@ class apiController {
    * 
    * @url GET /play
    */
-  public function play() {
+  public function play($data) {
     $id = trim($_GET['id']);
    
     if ($id != null) {
