@@ -12,7 +12,7 @@ $collection = $mongodb->selectCollection(MONGO_COLLECTION);
 // Indexes
 $collection->ensureIndex(array("url" => 1), array("unique" => 1, "dropDups" => 1));
 $collection->ensureIndex(array("available" => 1));
-$this->collection->ensureIndex(array('available' => 1, 'random' => 1));
+$collection->collection->ensureIndex(array('available' => 1, 'random' => 1));
 
 // Getting the highest post_id so we can update incrementally
 $max_post_record = $collection->find(array(), array('post_id' => true))->sort(array('post_id' => -1))->limit(1)->getNext();
@@ -21,13 +21,14 @@ if ($max_post_record)
 else 
   $max_post_id = 0;
 
+// Uncomment next line if you want to reindex the complete db again
 // $max_post_id = 0;
 
 /*****  Indexing ****/
 
-// MP3
-$regex = 'href="(.*\.mp3)"';
-$preg  = '/href="(.*?\.mp3)"/';
+// MP3 and OGG
+$regex = 'href="(.*[\.mp3|\.ogg])"';
+$preg  = '/href="(.*?[\.mp3|\.ogg])"/';
 
 $result = $db->query("SELECT * from phpbb_posts WHERE post_id > $max_post_id AND post_text REGEXP '$regex'");
 foreach ($result as $row ) {
@@ -92,7 +93,6 @@ foreach ($result as $row ) {
 /*
  * [soundcloud:9wavub5k]http&#58;//soundcloud&#46;com/renelavice/1xtra-dnb-with-bailey-13-04-11[/soundcloud:9wavub5k]
  */
-
 $regex = '\[soundcloud:(.*)\](.*)\[\/soundcloud:.*\]';
 $preg = '/\[soundcloud:(.*?)\](.*?)\[\/soundcloud:.*?\]/';
 $result = $db->query("SELECT * from phpbb_posts WHERE post_id > $max_post_id AND post_text REGEXP '$regex'");

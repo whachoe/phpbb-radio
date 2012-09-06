@@ -158,7 +158,8 @@ $(document).ready(function(){
       getNext(false);
     },
     swfPath: "/js/jplayer",
-    supplied: "mp3"
+    solution: "html,flash",
+    supplied: "mp3,oga"
   });
   
   // Fast forward button
