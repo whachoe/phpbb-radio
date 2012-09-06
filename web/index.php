@@ -10,14 +10,17 @@ $totalTrackCount = $collection->count();
 $totalActiveCount = $collection->count(array("available" => true));
 $totalInactiveCount = $collection->count(array("available" => false));
 
+
 function filterbox_forum() {
-  global $mongodb, $collection;
+  global $mongodb, $collection,$forums_to_ignore;
 
   $distinct_forums = $mongodb->command(
           array("distinct" => "tracks", 
                 "key" => "forum_id",
                 // We're filtering out a bunch of forum-id's which are private
-                "query" => array('forum_id' => array('$nin'=> array("13","16","19","11","12")), 'available' => true)
+                // Normally we should not have any such tracks since they are skipped in the crawler,
+                // but those forums might have been set 'private' after the indexing
+                "query" => array('forum_id' => array('$nin'=> $forums_to_ignore), 'available' => true)
               ));
   
   $out = '<select id="filter_forum">';
@@ -41,17 +44,17 @@ function filterbox_forum() {
 
     <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:400,600' rel='stylesheet' type='text/css'></link>
     <link href='http://fonts.googleapis.com/css?family=Russo+One' rel='stylesheet' type='text/css'></link>
-    <link rel="stylesheet" type="text/css" media="screen" href="/css/jquery-ui-1.8.23.custom.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/js/jqgrid/css/ui.jqgrid.css" />
-    <link href="/css/style.css" rel="stylesheet" type="text/css"></link>
+    <link href="css/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" media="screen"  />
+    <link href="js/jqgrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css" media="screen"  />
+    <link href="css/style.css" rel="stylesheet" type="text/css"></link>
 
     <script src="http://connect.soundcloud.com/sdk.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
-    <script src="/js/jqgrid/js/i18n/grid.locale-en.js" type="text/javascript"></script>
-    <script src="/js/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
-    <script src="/js/jplayer/jquery.jplayer.min.js"></script>
-    <script src="/js/radio.js.php"></script>
+    <script src="js/jqgrid/js/i18n/grid.locale-en.js" type="text/javascript"></script>
+    <script src="js/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+    <script src="js/jplayer/jquery.jplayer.min.js"></script>
+    <script src="js/radio.js.php"></script>
 
   </head>
   <body>
@@ -101,9 +104,9 @@ function filterbox_forum() {
           </div>
 
           <div id="jp-controls">
-            <div id="play" class="jp-play"><img src="/img/play.png" width="64" height="64"></div>
-            <div id="pause" class="jp-pause"><img src="/img/pause.png" width="64" height="64"></div>
-            <div id="next"><img src="/img/next.png" width="64" height="64"></div>
+            <div id="play" class="jp-play"><img src="img/play.png" width="64" height="64"></div>
+            <div id="pause" class="jp-pause"><img src="img/pause.png" width="64" height="64"></div>
+            <div id="next"><img src="img/next.png" width="64" height="64"></div>
             <div class="clear"></div>
           </div>
         </div>

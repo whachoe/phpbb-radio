@@ -11,41 +11,55 @@ class Track {
     $this->collection = $this->mongodb->selectCollection(MONGO_COLLECTION);
   }
 
-  
+  /*
+   *  @Deprecated
+   */
   function getTrackAtPos($pos=0) {
+    global $forums_to_ignore; 
+    
     $track = $this->collection->find(array(
         'available' => true, 
-        'forum_id' => array('$nin'=> array("13","16","19","11","12")))
+        'forum_id' => array('$nin'=> $forums_to_ignore))
       )->skip($pos)->getNext();
     
     return $this->prepareForSending($track);
   }
   
-  function getRandomTrack($forum_id) {
-    $rand = mt_rand();
+  public function getRandomTrack($forum_id) {
+    global $forums_to_ignore; 
     
-    $query = array(
-                  'available' => true,
-                  'random' => array('$gte' => $rand));
-    if ($forum_id) {
+    $query = array('available' => true);
+    
+    if ($forum_id && !in_array($forum_id, $forums_to_ignore)) {
       $query['forum_id'] = $forum_id;
     } else {
-      $query['forum_id'] = array('$nin'=> array("13","16","19","11","12"));
+      $query['forum_id'] = array('$nin'=> array('$nin'=> $forums_to_ignore));
     }
     
-    $result = $this->collection->findOne($query);
-    if ($result == null) {
-      $result = $this->collection->findOne($query);
-    }
+    $track = $this->collection->find($query)
+            ->limit(-1)
+            ->skip(mt_rand(0, $this->collection->count($query)))
+            ->getNext();
     
-    return $this->prepareForSending($result);
+    /* Alternative solution for random, with the random-column (but less even distribution)
+    $rand = mt_rand();
+    $query['random'] = array('$gte' => $rand);
+    $track = $this->collection->findOne($query);
+    if ($track == null) {
+      $query['random'] = array('$lte' => $rand); 
+      $track = $this->collection->findOne($query);
+    }
+    */
+    return $this->prepareForSending($track);
   }
   
-  function getTrack($id) {
+  public function getTrack($id) {
+    global $forums_to_ignore; 
+    
     $track = $this->collection->findOne(array(
         '_id' => new MongoId($id),
         'available' => true, 
-        'forum_id' => array('$nin'=> array("13","16","19","11","12")))
+        'forum_id' => array('$nin'=> $forums_to_ignore))
       );
     
     if (!$track) {
@@ -55,7 +69,9 @@ class Track {
     return $this->prepareForSending($track);
   }
   
-  // This function does a few things that need to be done before we send a track to the javascript-player
+  /*
+   *  This function does a few things that need to be done before we send a track to the javascript-player
+   */
   private function prepareForSending($track) {
     if (!isset($track['_id']))
       throw new Exception ("Track not available");

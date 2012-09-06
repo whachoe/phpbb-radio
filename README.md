@@ -6,7 +6,7 @@ These scripts parse all the posts on a phpbb-forum and filter out links to mp3's
 All urls are kept in a Mongodb (http://www.mongodb.org/). 
 
 ### Requirements:
-*    PHP-5.3
+*    PHP-5.3 (an older version might work but i haven't tested it)
 *    MongoDB (on debian-based servers, the following is enough to get a working instance: `apt-get install mongodb`
 *    a PHPBB-forum
 *    Sass (http://sass-lang.com/) Not required but very handy to have. Makes working with CSS a lot more fun. just type sass --watch web/css/style.scss:web/css/style.css to automatically update your style.css file.
@@ -20,11 +20,20 @@ All urls are kept in a Mongodb (http://www.mongodb.org/).
 *    web/index.php: The web-frontend of the radio.
 *    web/api: Contains the API which gets called by javascript to get new tracks. Here the good stuff happens.
 *    web/js/radio.js: Contains all the javascript logic to get music from the API, play it and update the view dynamically
-*    web/.htaccess: Redirects all calls to api/* to the rest-server in api/index.php
-                                               * 
-     If you run nginx, the following line should replace the .htaccess: 
-
+*    web/.htaccess: Redirects all calls to api/* to the rest-server in api/index.php  
+                                                
+     If you run nginx, the following line should replace the .htaccess:   
         rewrite ^/api/.*$ /api/index.php last;
+
+### Setup:
+*   Set up a subdomain for your radio in your DNS and webserver
+*   `mv db_config-sample.php db_config.php`
+*   Edit db_config.php
+*   Edit config.php
+*   Make sure mongodb is running and then run (this will take a LONG time):
+    php crawler.php >list.log
+*   When the crawler is done, go check out your radio: http://your-radio-domain
+
 
 ### Demo Site:
 http://radio.breakzforum.be

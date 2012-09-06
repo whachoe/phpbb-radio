@@ -8,11 +8,7 @@ class apiController {
 	 * 
 	 * @url GET /next
 	 */
-	public function next($data = null) {
-    //var_dump($data); die;
-    
-		$trackObject = new Track();
-    
+	public function next() {
     // Parameter processing
     $pos = isset($_GET['pos']) && is_numeric($_GET['pos']) ? $_GET['pos'] : 0;
     $skipped = $_GET['skipped'];
@@ -21,8 +17,8 @@ class apiController {
     
     // TODO: register the skip in the previous-track record
     
-    //$track = $trackObject->getTrackAtPos($pos);
     try {
+      $trackObject = new Track();
       $track = $trackObject->getRandomTrack($selected_forum);
       return $track; 
     } catch (Exception $e) {
@@ -35,7 +31,7 @@ class apiController {
    * 
    * @url GET /play
    */
-  public function play($data) {
+  public function play() {
     $id = trim($_GET['id']);
    
     if ($id != null) {
@@ -49,14 +45,5 @@ class apiController {
       }
     }
   }
-
-  /**
-   * Get the Soundcloud API key
-   * 
-   * @url GET /getsoundcloudapikey
-   */
-//  public function getSoundcloudApikey() {
-//    return SOUNDCLOUD_API_KEY;
-//  }
           
 }
