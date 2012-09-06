@@ -51,10 +51,12 @@ h1 {
   white-space: nowrap;
   opacity: 0.95;
   z-index: 120;
-  color: white;
-  background-color: #151616; }
-  #filters div {
+  color: white; }
+  #filters div.ui-widget-header {
     padding-left: 5px; }
+  #filters div#filters_formwrapper {
+    background-color: #151616;
+    height: 100%; }
   #filters center {
     position: relative;
     top: 200px;
@@ -62,6 +64,16 @@ h1 {
     #filters center a {
       color: #fff;
       text-decoration: none; }
+
+.ui-jqgrid {
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -khtml-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -khtml-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0; }
 
 #playlist {
   display: none;

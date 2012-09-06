@@ -110,12 +110,15 @@ function filterbox_forum() {
         
         <div id="filters">
           <div class="ui-widget-header ui-corner-top ui-helper-clearfix">
-            <span class="ui-jqgrid-title">Filter</span>
+              <span class="ui-jqgrid-title">Filter</span>
           </div>
-          <form action="" method="POST">
-            <?php echo filterbox_forum(); ?>
-          </form>  
-          <center><a href="#">∨ Close ∨</a></center>
+
+          <div id="filters_formwrapper">
+            <form action="" method="POST">
+              <?php echo filterbox_forum(); ?>
+            </form>  
+            <center><a href="#">∨ Close ∨</a></center>
+          </div>
         </div>
         
         <div id="playlist">

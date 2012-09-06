@@ -72,10 +72,14 @@ h1 {
 
 #filters {
   @include slidingpanel;
-  background-color: #151616;
 
-  div {
+  div.ui-widget-header {
     padding-left: 5px;
+  }
+  
+  div#filters_formwrapper {
+    background-color: #151616;
+    height: 100%;
   }
   center {
     position: relative;
@@ -89,6 +93,17 @@ h1 {
   }
 }
 
+.ui-jqgrid {
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -khtml-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+
+  -moz-border-radius-bottomleft: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -khtml-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
 #playlist {
   @include slidingpanel;
   padding: 0;
