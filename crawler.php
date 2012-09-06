@@ -23,13 +23,13 @@ else
   $max_post_id = 0;
 
 // Uncomment next line if you want to reindex the complete db again
-// $max_post_id = 0;
+$max_post_id = 0;
 
 /*****  Indexing ****/
 
 // MP3 and OGG
-$regex = 'href="(.*[\.mp3|\.ogg])"';
-$preg  = '/href="(.*?[\.mp3|\.ogg])"/';
+$regex = 'href="(.*\.(mp3|ogg))"';
+$preg  = '/href="(.*?\.(mp3|ogg))"/';
 
 $result = $db->query("SELECT * from phpbb_posts WHERE post_id > $max_post_id AND post_text REGEXP '$regex'");
 foreach ($result as $row ) {
@@ -40,15 +40,14 @@ foreach ($result as $row ) {
 	$allmatches = array();
 	preg_match_all($preg, $row['post_text'], $allmatches, PREG_PATTERN_ORDER);
 	if (isset($allmatches[1])) {
-    foreach ($allmatches[1] as $match) {
-      $url = str_replace('\/', '/', $match);
+    foreach ($allmatches[1] as $url) {
       if (url_exists_in_collection($url, $collection))
         continue;
       
       // Initialize record 
       $record = make_record($row, $db);
-      $record['url']       = $url;
-      $record['type'] = 'mp3';
+      $record['url']        = $url;
+      $record['type']       = 'mp3';
 
       // Quick check to see if url exists
       if (url_valid($record['url'])) {
@@ -73,8 +72,7 @@ foreach ($result as $row ) {
   $allmatches = array();
   preg_match_all($preg, $row['post_text'], $allmatches, PREG_PATTERN_ORDER);
 	if (isset($allmatches[1])) {
-    foreach ($allmatches[1] as $match) {
-      $url = str_replace('\/', '/', $match);
+    foreach ($allmatches[1] as $url) {
       if (url_exists_in_collection($url, $collection))
         continue;
       
@@ -98,6 +96,7 @@ foreach ($result as $row ) {
   }
 }
 
+
 // Soundcloud embedded links
 /*
  * [soundcloud:9wavub5k]http&#58;//soundcloud&#46;com/renelavice/1xtra-dnb-with-bailey-13-04-11[/soundcloud:9wavub5k]
@@ -111,11 +110,11 @@ foreach ($result as $row ) {
     continue;
 
 	$allmatches = array();
-	preg_match($preg, $row['post_text'], $allmatches);
+	preg_match_all($preg, $row['post_text'], $allmatches, PREG_PATTERN_ORDER);
   
 	if (isset($allmatches[2])) {
     foreach ($allmatches[2] as $match) {
-      $url = html_entity_decode($allmatches[2]);
+      $url = html_entity_decode($match);
       if (url_exists_in_collection($url, $collection))
         continue;
       
