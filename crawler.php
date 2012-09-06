@@ -12,7 +12,8 @@ $collection = $mongodb->selectCollection(MONGO_COLLECTION);
 // Indexes
 $collection->ensureIndex(array("url" => 1), array("unique" => 1, "dropDups" => 1));
 $collection->ensureIndex(array("available" => 1));
-$collection->collection->ensureIndex(array('available' => 1, 'random' => 1));
+$collection->ensureIndex(array("available" => 1, "forum_id" => 1));
+$collection->ensureIndex(array('available' => 1, 'random' => 1));
 
 // Getting the highest post_id so we can update incrementally
 $max_post_record = $collection->find(array(), array('post_id' => true))->sort(array('post_id' => -1))->limit(1)->getNext();
@@ -32,6 +33,10 @@ $preg  = '/href="(.*?[\.mp3|\.ogg])"/';
 
 $result = $db->query("SELECT * from phpbb_posts WHERE post_id > $max_post_id AND post_text REGEXP '$regex'");
 foreach ($result as $row ) {
+  // If posted in one of the $forums_to_ignore, just skip to the next entry
+  if (in_array($row['forum_id'], $forums_to_ignore))
+    continue;
+      
 	$allmatches = array();
 	preg_match_all($preg, $row['post_text'], $allmatches, PREG_PATTERN_ORDER);
 	if (isset($allmatches[1])) {
@@ -61,6 +66,10 @@ $preg  = '/href="(http:\/\/soundcloud\.com\/.*\/.*)">/';
 
 $result = $db->query("SELECT * from phpbb_posts WHERE post_id > $max_post_id AND post_text REGEXP '$regex'");
 foreach ($result as $row ) {
+  // If posted in one of the $forums_to_ignore, just skip to the next entry
+  if (in_array($row['forum_id'], $forums_to_ignore))
+    continue;
+      
   $allmatches = array();
   preg_match_all($preg, $row['post_text'], $allmatches, PREG_PATTERN_ORDER);
 	if (isset($allmatches[1])) {
@@ -97,6 +106,10 @@ $regex = '\[soundcloud:(.*)\](.*)\[\/soundcloud:.*\]';
 $preg = '/\[soundcloud:(.*?)\](.*?)\[\/soundcloud:.*?\]/';
 $result = $db->query("SELECT * from phpbb_posts WHERE post_id > $max_post_id AND post_text REGEXP '$regex'");
 foreach ($result as $row ) {
+  // If posted in one of the $forums_to_ignore, just skip to the next entry
+  if (in_array($row['forum_id'], $forums_to_ignore))
+    continue;
+
 	$allmatches = array();
 	preg_match($preg, $row['post_text'], $allmatches);
   

@@ -5,7 +5,7 @@ var pos = 0;
 var sc_client_id = "<?php echo SOUNDCLOUD_API_KEY ?>";
 var current_track = null;
 var current_soundcloud_data = null;
-var apiurl = '/api';
+var apiurl = 'api';
 
 // Initialize Soundcloud API
 SC.initialize({
@@ -113,13 +113,13 @@ function updateViews(data,soundcloud_data) {
   
   $("#post_link a")
   .fadeOut('fast').hide()
-  .attr("href","http://breakzforum.be/forum/viewtopic.php?f="+data.forum_id+"&p="+data.post_id)
+  .attr("href","<?php echo FORUM_URL."/viewtopic.php?f=" ?>"+data.forum_id+"&p="+data.post_id)
   .html(poster_name)
   .fadeIn('fast');
     
   $("#forum_link a")
   .fadeOut('fast').hide()
-  .attr("href", "http://breakzforum.be/forum/viewforum.php?f="+data.forum_id)
+  .attr("href", "<?php echo FORUM_URL."/viewforum.php?f="?>"+data.forum_id)
   .html(forum_name.substring(0,22))
   .fadeIn('fast');
     
