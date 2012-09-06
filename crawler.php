@@ -23,7 +23,7 @@ else
   $max_post_id = 0;
 
 // Uncomment next line if you want to reindex the complete db again
-$max_post_id = 0;
+// $max_post_id = 0;
 
 /*****  Indexing ****/
 
