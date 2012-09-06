@@ -51,7 +51,7 @@ function filterbox_forum() {
     <script src="/js/jqgrid/js/i18n/grid.locale-en.js" type="text/javascript"></script>
     <script src="/js/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
     <script src="/js/jplayer/jquery.jplayer.min.js"></script>
-    <script src="/js/radio.js"></script>
+    <script src="/js/radio.js.php"></script>
 
   </head>
   <body>
