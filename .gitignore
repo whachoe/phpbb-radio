@@ -2,5 +2,4 @@
 nbproject/
 /web/css/.sass-cache/
 assets/
-config.php
 db_config.php
