@@ -23,7 +23,7 @@ All urls are kept in a Mongodb (http://www.mongodb.org/).
 *    web/.htaccess: Redirects all calls to api/* to the rest-server in api/index.php  
                                                 
      If you run nginx, the following line should replace the .htaccess:   
-        rewrite ^/api/.*$ /api/index.php last;
+        `rewrite ^/api/.*$ /api/index.php last;`
 
 ### Setup:
 *   Set up a subdomain for your radio in your DNS and webserver
