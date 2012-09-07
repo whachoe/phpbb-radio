@@ -23,7 +23,7 @@ All urls are kept in a Mongodb (http://www.mongodb.org/).
 *    web/.htaccess: Redirects all calls to api/* to the rest-server in api/index.php  
                                                 
      If you run nginx, the following line should replace the .htaccess:   
-        rewrite ^/api/.*$ /api/index.php last;
+        `rewrite ^/api/.*$ /api/index.php last;`
 
 ### Setup:
 *   Set up a subdomain for your radio in your DNS and webserver
@@ -31,7 +31,7 @@ All urls are kept in a Mongodb (http://www.mongodb.org/).
 *   Edit db_config.php
 *   Edit config.php
 *   Make sure mongodb is running and then run (this will take a LONG time):
-    php crawler.php >list.log
+    `php crawler.php >list.log`
 *   When the crawler is done, go check out your radio: http://your-radio-domain
 *   I use the following line in crontab on my server to refresh the list each night:  
     `* 3 * * * cd /path/to/the/source; php check_availability.php  && php crawler.php`
