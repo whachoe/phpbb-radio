@@ -9,7 +9,7 @@
   // If your forum doesn't have any links to soundcloud-urls, you can ignore this
   // 
   // Get one at http://soundcloud.com/you/apps
-  define('SOUNDCLOUD_API_KEY', 'YOUR_SOUNDCLOUD_API_KEY'); 
+  define('SOUNDCLOUD_API_KEY', 'da7fd01a909b42f7145ae301fe2cff5c'); 
   
   // Various constants used in the website
   define("CONTACTEMAIL", "cjpa@breakzforum.be");

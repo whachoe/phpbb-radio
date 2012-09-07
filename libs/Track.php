@@ -1,14 +1,10 @@
 <?php
 class Track {
-  var $m;
-  var $mongodb;
   var $collection;
   
-  function __construct() {
+  function __construct($collection) {
     // Mongo DB
-    $this->m = new Mongo();
-    $this->mongodb = $this->m->selectDB(MONGO_DB);
-    $this->collection = $this->mongodb->selectCollection(MONGO_COLLECTION);
+    $this->collection = $collection;
   }
 
   /*
