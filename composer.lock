@@ -1,6 +1,18 @@
 {
-    "hash": "520874f197b0c27aa0165e3f7354ce14",
+    "hash": "818f5220ec3803dd56fbc32d596e148e",
     "packages": [
+        {
+            "package": "EHER/PHPUnit",
+            "version": "dev-master",
+            "source-reference": "ee903b6622c061c0b76dc4e764a864c56a86deee",
+            "commit-date": "1345468048"
+        },
+        {
+            "package": "monolog/monolog",
+            "version": "dev-master",
+            "source-reference": "a929570bb7688b39fefe4106f0ecf0ac35f37647",
+            "commit-date": "1346873566"
+        },
         {
             "package": "pimple/pimple",
             "version": "dev-master",
@@ -32,6 +44,10 @@
         {
             "package": "symfony/event-dispatcher",
             "version": "v2.1.0"
+        },
+        {
+            "package": "symfony/finder",
+            "version": "v2.0.16"
         },
         {
             "package": "symfony/http-foundation",

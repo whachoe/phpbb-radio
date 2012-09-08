@@ -23,11 +23,12 @@ else
   $max_post_id = 0;
 
 // Uncomment next line if you want to reindex the complete db again
-// $max_post_id = 0;
+$max_post_id = 0;
 
 /*****  Indexing ****/
 
 // MP3 and OGG
+/*
 $regex = 'href="(.*\.(mp3|ogg))"';
 $preg  = '/href="(.*?\.(mp3|ogg))"/';
 
@@ -58,6 +59,7 @@ foreach ($result as $row ) {
     } 
   }
 }
+*/
 
 // Soundcloud regular links
 $regex= 'href="(http:\/\/soundcloud\.com\/.*\/.*)">';
@@ -73,29 +75,46 @@ foreach ($result as $row ) {
   preg_match_all($preg, $row['post_text'], $allmatches, PREG_PATTERN_ORDER);
 	if (isset($allmatches[1])) {
     foreach ($allmatches[1] as $url) {
-      if (url_exists_in_collection($url, $collection))
-        continue;
+      // if (url_exists_in_collection($url, $collection))
+      //  continue;
       
       // Initialize record 
       $record = make_record($row, $db);
       $record['url']       = $url;
-      $matches_url = array();
-      preg_match('/^http:\/\/soundcloud\.com\/(.*?)\/(.*?)\/.*$/', $record['url'], $matches_url);
-      if (isset($matches_url[1]) && isset($matches[2])) {
-        $record['url'] = 'http://soundcloud.com/'.$matches[1].'/'.$matches[2];
-      } 
       $record['type'] = 'soundcloud';
-
-      // Quick check to see if url exists
-      if (soundcloud_valid($record['url'])) {
-        $record['available'] = true;
+      
+      // Parse data from soundcloud API
+      $soundcloud_data = getSoundcloudData($url);
+      if ($soundcloud_data) {
+        if ($soundcloud_data->kind == 'track') {
+          if ($soundcloud_data->streamable) {
+            $record['stream_url'] = $soundcloud_data->stream_url;
+            $record['available'] = true;
+            $record['soundcloud_data'] = $soundcloud_data;
+            add_record($record, $collection);
+            continue;
+          } else {
+            $record['available'] = false;
+          }
+        } elseif ($soundcloud_data->kind == 'playlist') {
+          foreach ($soundcloud_data->tracks as $track) {
+            $r = make_record($row, $db);
+            $r['url'] = $soundcloud_data->permalink_url;
+            $r['type'] = 'soundcloud';
+            $r['stream_url'] = $soundcloud_data->stream_url;
+            $r['soundcloud_data'] = $soundcloud_data;
+            add_record($r, $collection);
+            continue;
+          }
+        } else {
+          continue;
+        } 
       }
-
-      add_record($record, $collection);
     }
   }
 }
 
+die;
 
 // Soundcloud embedded links
 /*
