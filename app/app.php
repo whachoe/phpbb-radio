@@ -46,7 +46,7 @@ $collection = $mongodb->selectCollection(MONGO_COLLECTION);
 $app = new Silex\Application();
 $app['debug'] = true;
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile' => '../radio.log',
+    'monolog.logfile' => '../logs/radio.log',
 ));
 
 
