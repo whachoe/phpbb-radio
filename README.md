@@ -22,8 +22,12 @@ The frontend and JSON-API are made using the [Silex Microframework](http://silex
 *    web/js/radio.js.php: Contains all the javascript logic to get music from the API, play it and update the view dynamically
 *    web/.htaccess: Needed for routing everything to index.php
                                                 
-     If you run nginx, the following line should replace the .htaccess:   
-        `rewrite ^/api/.*$ /api/index.php last;`
+     If you run nginx, the following lines should replace the .htaccess:   
+        `index index.php;        
+location /
+    {
+        try_files $uri $uri/ /index.php?$args;
+    }`
 
 ### Setup:
 *   Set up a subdomain for your radio in your DNS and webserver
