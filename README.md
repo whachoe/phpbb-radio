@@ -31,6 +31,7 @@ location /
 
 ### Setup:
 *   Set up a subdomain for your radio in your DNS and webserver
+*   Install all dependencies through [packagist](http://packagist.org): `php composer.phar update`
 *   `mv db_config-sample.php db_config.php`
 *   Edit db_config.php
 *   Edit config.php
