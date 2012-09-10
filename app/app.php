@@ -9,14 +9,12 @@ use Radio\Track;
 /**
  * Returns a SELECT-box with all the valid forums
  * 
- * @global type $mongodb
- * @global type $collection
- * @global type $forums_to_ignore
+ * @param type $mongodb
+ * @param type $collection
+ * @param type $forums_to_ignore
  * @return string
  */
-function filterbox_forum() {
-  global $mongodb, $collection,$forums_to_ignore;
-
+function filterbox_forum($mongodb, $collection,$forums_to_ignore) {
   $distinct_forums = $mongodb->command(
           array("distinct" => "tracks", 
                 "key" => "forum_id",
@@ -42,13 +40,12 @@ $m = new Mongo();
 $mongodb = $m->selectDB(MONGO_DB);
 $collection = $mongodb->selectCollection(MONGO_COLLECTION);
 
-// Setting up the controller
+// Setting up the Application
 $app = new Silex\Application();
 $app['debug'] = true;
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => '../logs/radio.log',
 ));
-
 
 // API Controller
 $api = $app['controllers_factory'];
@@ -56,12 +53,12 @@ $api = $app['controllers_factory'];
 /**
   * Play a specific track
   */ 
-$api->get('/play', function() use ($app, $collection) {
+$api->get('/play', function() use ($app, $collection, $forums_to_ignore) {
   $id = trim($_GET['id']);
    
     if ($id != null) {
       try {
-        $trackObject = new Track($collection);  
+        $trackObject = new Track($collection, $forums_to_ignore);  
         $track = $trackObject->getTrack($id);
         
         return $app->json($track);
@@ -77,7 +74,7 @@ $api->get('/play', function() use ($app, $collection) {
 /**
   * Play the next track
 	*/
-$api->get('/next', function() use ($app, $collection) {
+$api->get('/next', function() use ($app, $collection, $forums_to_ignore) {
   // Parameter processing
   $pos = isset($_GET['pos']) && is_numeric($_GET['pos']) ? $_GET['pos'] : 0;
   $skipped = $_GET['skipped'];
@@ -87,7 +84,7 @@ $api->get('/next', function() use ($app, $collection) {
   // TODO: register the skip in the previous-track record
 
   try {
-    $trackObject = new Track($collection);
+    $trackObject = new Track($collection, $forums_to_ignore);
     $track = $trackObject->getRandomTrack($selected_forum);
     
     return $app->json($track);
@@ -108,10 +105,11 @@ $app->mount('/api', $api);
 
 
 // Route to mainpage
-$app->get('/', function(Request $request) use ($collection) {
+$app->get('/', function(Request $request) use ($collection,$mongodb,$forums_to_ignore) {
   $totalTrackCount = $collection->count();
   $totalActiveCount = $collection->count(array("available" => true));
   $totalInactiveCount = $collection->count(array("available" => false));
+  $forum_selectbox = filterbox_forum($mongodb, $collection, $forums_to_ignore);
   
   // Include the view
   include_once '../views/index.php';

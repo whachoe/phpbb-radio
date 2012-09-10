@@ -10,7 +10,7 @@ The frontend and JSON-API are made using the [Silex Microframework](http://silex
 *    PHP-5.3 (or higher)
 *    MongoDB (on debian-based servers, the following is enough to get a working instance: `apt-get install mongodb`
 *    a PHPBB-forum
-*    [Sass](http://sass-lang.com/) Not required but very handy to have. Makes working with CSS a lot more fun. just type sass --watch web/css/style.scss:web/css/style.css to automatically update your style.css file.
+*    [Sass](http://sass-lang.com/) Not required but very handy to have. Makes working with CSS a lot more fun. just type `sass --watch web/css/style.scss:web/css/style.css` to automatically update your style.css file.
 
 
 ### Important files:

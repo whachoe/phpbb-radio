@@ -4,45 +4,42 @@ namespace Radio;
 class Track {
   var $collection;
   
-  function __construct($collection) {
+  function __construct($collection, $forums_to_ignore=array()) {
     // Mongo DB
     $this->collection = $collection;
+    $this->forums_to_ignore = $forums_to_ignore;
   }
 
   /*
    *  @Deprecated
    */
   function getTrackAtPos($pos=0) {
-    global $forums_to_ignore; 
-    
     $track = $this->collection->find(array(
         'available' => true, 
-        'forum_id' => array('$nin'=> $forums_to_ignore))
+        'forum_id' => array('$nin'=> $this->forums_to_ignore))
       )->skip($pos)->getNext();
     
     return $this->prepareForSending($track);
   }
   
   public function getRandomTrack($forum_id=null) {
-    global $forums_to_ignore; 
-    
     $query = array('available' => true);
     
-    if ($forum_id && !in_array($forum_id, $forums_to_ignore)) {
+    if ($forum_id && !in_array($forum_id, $this->forums_to_ignore)) {
       $query['forum_id'] = $forum_id;
     } else {
-      $query['forum_id'] = array('$nin'=> array('$nin'=> $forums_to_ignore));
+      $query['forum_id'] = array('$nin'=> array('$nin'=> $this->forums_to_ignore));
     }
     
-    if (strstr(strtolower($_SERVER["HTTP_USER_AGENT"]), 'firefox')) {
-      // $query['type'] = 'mp3';
-    }
     $track = $this->collection->find($query)
             ->limit(-1)
             ->skip(mt_rand(0, $this->collection->count($query)))
             ->getNext();
     
-    /* Alternative solution for random, with the random-column (but less even distribution)
+    /* Alternative solution for random, with the random-column (but less even distribution) 
+     * The crawler still populates the random-field so this can be uncommented, but i prefer the solution above
+     */
+    /* 
     $rand = mt_rand();
     $query['random'] = array('$gte' => $rand);
     $track = $this->collection->findOne($query);
@@ -63,12 +60,10 @@ class Track {
   }
   
   public function getTrack($id) {
-    global $forums_to_ignore; 
-    
     $track = $this->collection->findOne(array(
         '_id' => new \MongoId($id),
         'available' => true, 
-        'forum_id' => array('$nin'=> $forums_to_ignore))
+        'forum_id' => array('$nin'=> $this->forums_to_ignore))
       );
     
     if (!$track) {
@@ -85,7 +80,7 @@ class Track {
     if (!isset($track['_id']))
       throw new \Exception ("Track not available");
     
-    // Get Soundcloud Stream Url
+    // Get Soundcloud Stream Url: In case the crawler didn't get it yet
     if (in_array($track['type'], array('soundcloud', 'soundcloud_embed')) && !isset($track['soundcloud_data'])) {
        $soundcloud_data = $this->getSoundcloudInfo($track);
        if (!$soundcloud_data)
@@ -102,17 +97,18 @@ class Track {
     
     $this->collection->save($track);
     
+    
     // These are things only the views need to know
     $track['id'] = $track['_id']->__toString();
     $track['post_time'] = date("d M Y, h:i", $track['post_time']);
     switch ($track['type']) {
       case 'soundcloud_embed':
-      case 'soundcloud' : $track['type_img'] = '/img/type_soundcloud.png';
+      case 'soundcloud' : $track['type_img'] = 'img/type_soundcloud.png';
       break;
     
       case 'mp3' : 
       default:  
-        $track['type_img'] = '/img/type_mp3.png';
+        $track['type_img'] = 'img/type_mp3.png';
         break;
     }
     return $track;

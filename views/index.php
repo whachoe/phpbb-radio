@@ -81,7 +81,7 @@
 
           <div id="filters_formwrapper">
             <form action="" method="POST">
-              <?php echo filterbox_forum(); ?>
+              <?php echo $forum_selectbox; ?>
             </form>  
             <center><a href="#">∨ Close ∨</a></center>
           </div>

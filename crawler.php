@@ -23,12 +23,15 @@ else
   $max_post_id = 0;
 
 // Uncomment next line if you want to reindex the complete db again
-$max_post_id = 0;
+//$max_post_id = 0;
+
 
 /*****  Indexing ****/
 
+
 // MP3 and OGG
-/*
+// only mp3: $regex = 'href="(.*\.(mp3))"';
+// only mp3: $preg  = '/href="(.*?\.(mp3))"/';
 $regex = 'href="(.*\.(mp3|ogg))"';
 $preg  = '/href="(.*?\.(mp3|ogg))"/';
 
@@ -59,7 +62,6 @@ foreach ($result as $row ) {
     } 
   }
 }
-*/
 
 // Soundcloud regular links
 $regex= 'href="(http:\/\/soundcloud\.com\/.*\/.*)">';
@@ -114,7 +116,6 @@ foreach ($result as $row ) {
   }
 }
 
-die;
 
 // Soundcloud embedded links
 /*
