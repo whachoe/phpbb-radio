@@ -35,6 +35,7 @@ location /
 *   `mv db_config-sample.php db_config.php`
 *   Edit db_config.php
 *   Edit config.php
+*   Make sure logs/ is writable for your webserver (fi. on debian-based linux: `chown www-data:www-data logs; chmod 755 logs`
 *   Make sure mongodb is running and then run (this will take a LONG time):
     `php crawler.php >list.log`
 *   You can do `tail -f list.log` while running the crawler to check the progress
