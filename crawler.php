@@ -55,6 +55,7 @@ foreach ($result as $row ) {
 
       // Quick check to see if url exists
       if (url_valid($record['url'])) {
+        $record['stream_url'] = $record['url'];
         $record['available'] = true;
       }
 

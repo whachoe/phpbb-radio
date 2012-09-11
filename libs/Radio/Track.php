@@ -98,20 +98,43 @@ class Track {
     $this->collection->save($track);
     
     
-    // These are things only the views need to know
-    $track['id'] = $track['_id']->__toString();
-    $track['post_time'] = date("d M Y, h:i", $track['post_time']);
+    // These are the only things the views need to know
+    $toSend = array(
+      'id'               => $track['_id']->__toString(),
+      '_id'              => $track['_id'],
+      'url'              => $track['url'],
+      'type'             => $track['type'],
+      'stream_url'       => $track['stream_url'],
+      'poster_name'      => $track['poster_name'],
+      'forum_id'         => $track['forum_id'],
+      'forum_name'       => $track['forum_name'],
+      'post_id'          => $track['post_id'],
+      'post_time'        => date("d M Y, h:i", $track['post_time']),
+      	
+        );
+    
+    if (isset($track['soundcloud_data'])) {
+      $toSend['streamable'] = $track['soundcloud_data']->streamable;
+      $toSend['soundcloud_data'] = $track['soundcloud_data'];
+    }
+    
     switch ($track['type']) {
       case 'soundcloud_embed':
-      case 'soundcloud' : $track['type_img'] = 'img/type_soundcloud.png';
-      break;
+      case 'soundcloud' : 
+	$toSend['type_img']  = 'img/type_soundcloud.png';
+	$toSend['songtitle'] = $toSend['soundcloud_data']->title;
+	$toSend['artist']    = $toSend['soundcloud_data']->user->username;
+      	break;
     
       case 'mp3' : 
       default:  
-        $track['type_img'] = 'img/type_mp3.png';
+        $toSend['type_img'] = 'img/type_mp3.png';
+	$toSend['songtitle'] = str_replace(array('.mp3', '.ogg'), '', substr($toSend['url'], strrpos($toSend['url'], '/')));
+	$toSend['artist']    = 'Unknown';
+	$toSend['stream_url'] = $toSend['url'];
         break;
     }
-    return $track;
+    return $toSend;
   }
   
   private function getSoundcloudInfo($track) {

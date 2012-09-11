@@ -3,7 +3,6 @@
 // Global Variables
 var sc_client_id = "<?php echo SOUNDCLOUD_API_KEY ?>";
 var current_track = null;
-var current_soundcloud_data = null;
 var apiurl = 'api';
 
 // Initialize Soundcloud API
@@ -21,19 +20,19 @@ function checkData(data) {
         })
         .jPlayer('play');
 
-        updateViews(data,null);
+        updateViews(data);
         return;
       }
       
       if (data.type == "soundcloud" || data.type == "soundcloud_embed") {
-        if (data.soundcloud_data && data.soundcloud_data.streamable) {
+        if (data.stream_url && data.streamable) {
           $('#player')
             .jPlayer('setMedia', {
-              mp3: data.soundcloud_data.stream_url+"?client_id="+sc_client_id
+              mp3: data.stream_url+"?client_id="+sc_client_id
             })
             .jPlayer('play');
 
-            updateViews(data,data.soundcloud_data);
+            updateViews(data);
             return;
         }
       
@@ -52,7 +51,8 @@ function checkData(data) {
               })
               .jPlayer('play');
 
-              updateViews(data,soundcloud_data);
+              data.soundcloud_data = soundcloud_data;
+              updateViews(data);
             } else {
               getNext(false);
             }
@@ -86,9 +86,9 @@ function play(id) {
   }, function(data) { checkData(data) }, "json");
 }
 
-function updateViews(data,soundcloud_data) {
+function updateViews(data) {
+  // Keep a global reference to our current track
   current_track = data;
-  current_soundcloud_data = soundcloud_data;
   
   // Setting the values
   poster_name = data.poster_name;
@@ -97,9 +97,9 @@ function updateViews(data,soundcloud_data) {
   if (slash > -1) forum_name = data.forum_name.substr(slash+1);
   else            forum_name = data.forum_name;
   
-  if (soundcloud_data) {
-    songtitle = soundcloud_data.title;
-    artist    = soundcloud_data.user.username;
+  if (data.soundcloud_data) {
+    songtitle = data.soundcloud_data.title;
+    artist    = data.soundcloud_data.user.username;
   } else {
     songtitle = data.url.substring(data.url.lastIndexOf('/')+1, data.url.lastIndexOf('.mp3'));
     artist    = "Unknown";
