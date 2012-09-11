@@ -51,7 +51,9 @@ function checkData(data) {
               })
               .jPlayer('play');
 
-              data.soundcloud_data = soundcloud_data;
+              //data.soundcloud_data = soundcloud_data;
+	      data.artist = soundcloud_data.user.username;
+	      data.songtitle = soundcloud_data.title;
               updateViews(data);
             } else {
               getNext(false);
@@ -97,11 +99,11 @@ function updateViews(data) {
   if (slash > -1) forum_name = data.forum_name.substr(slash+1);
   else            forum_name = data.forum_name;
   
-  if (data.soundcloud_data) {
-    songtitle = data.soundcloud_data.title;
-    artist    = data.soundcloud_data.user.username;
+  if (data.type != "mp3") {
+    songtitle = data.songtitle;
+    artist    = data.artist;
   } else {
-    songtitle = data.url.substring(data.url.lastIndexOf('/')+1, data.url.lastIndexOf('.mp3'));
+    songtitle = data.songtitle;
     artist    = "Unknown";
   }
   

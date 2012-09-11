@@ -87,7 +87,7 @@ class Track {
          throw new \Exception("Soundcloud: Not a track");
          
        $track['soundcloud_data'] = $soundcloud_data;
-    }
+    } 
     
     // Updating play-count
     if (!isset($track['played']))
@@ -113,17 +113,13 @@ class Track {
       	
         );
     
-    if (isset($track['soundcloud_data'])) {
-      $toSend['streamable'] = $track['soundcloud_data']->streamable;
-      $toSend['soundcloud_data'] = $track['soundcloud_data'];
-    }
-    
     switch ($track['type']) {
       case 'soundcloud_embed':
       case 'soundcloud' : 
+      	$toSend['streamable'] = $track['soundcloud_data']->streamable;
 	$toSend['type_img']  = 'img/type_soundcloud.png';
-	$toSend['songtitle'] = $toSend['soundcloud_data']->title;
-	$toSend['artist']    = $toSend['soundcloud_data']->user->username;
+	$toSend['songtitle'] = $track['soundcloud_data']->title;
+	$toSend['artist']    = $track['soundcloud_data']->user->username;
       	break;
     
       case 'mp3' : 
