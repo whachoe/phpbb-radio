@@ -14,7 +14,7 @@ $textcolor:   #fff;
   width: $panelwidth;
   overflow: hidden;
   white-space: nowrap;
-  
+
   opacity: 0.95;
   z-index: 120;
   color: $textcolor;
@@ -76,7 +76,7 @@ h1 {
   div.ui-widget-header {
     padding-left: 5px;
   }
-  
+
   div#filters_formwrapper {
     background-color: #151616;
     height: 100%;
@@ -171,15 +171,15 @@ table#playlisttable {
   float: left;
   font-size: 10px;
   text-overflow: ellipsis;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 #post_link, #forum_link {
   min-width: 120px;
   width: 120px;
-  display: inline-block; 
+  display: inline-block;
   text-overflow: ellipsis;
-  overflow: hidden;
+  //overflow: hidden;
 }
 
 #date_span {
@@ -208,9 +208,9 @@ table#playlisttable {
   -webkit-box-shadow: 0px 0px 5px #adadad;
   box-shadow: 0px 0px 5px #adadad;
 
-  border-radius: 10px 10px 0px 0px; 
-  -moz-border-radius: 10px 10px 0px 0px; 
-  -webkit-border-radius: 10px 10px 0px 0px; 
+  border-radius: 10px 10px 0px 0px;
+  -moz-border-radius: 10px 10px 0px 0px;
+  -webkit-border-radius: 10px 10px 0px 0px;
   border: 1px solid #ccc;
 
   z-index: 100; }
@@ -227,10 +227,10 @@ table#playlisttable {
   width: 438px;
   padding-bottom: 7px; }
 
-  
+
 
 /**** Jplayer styling ****/
-  
+
 #jp-controls {
   margin: 20px auto 0px auto;
   height: 50px;

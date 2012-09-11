@@ -148,8 +148,7 @@ table#playlisttable {
   min-width: 120px;
   width: 120px;
   display: inline-block;
-  text-overflow: ellipsis;
-  overflow: hidden; }
+  text-overflow: ellipsis; }
 
 #date_span {
   min-width: 80px;

@@ -3,3 +3,4 @@ nbproject/
 /web/css/.sass-cache/
 assets/
 db_config.php
+vendor

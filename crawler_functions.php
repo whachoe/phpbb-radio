@@ -28,6 +28,14 @@
     return false;
   }
   
+  function getSoundcloudData($url) {
+    $data = json_decode(@file_get_contents("http://api.soundcloud.com/resolve.json?client_id=".SOUNDCLOUD_API_KEY."&url=".urlencode($url)));
+    if ($data != null && property_exists($data, 'kind'))
+      return $data;
+    
+    return null;
+  }
+  
   // Get data from the Forum table
   function fetch_forum_info($forum_id, $db) {
     $sql = "SELECT * FROM phpbb_forums WHERE forum_id=$forum_id LIMIT 1";

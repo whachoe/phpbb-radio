@@ -1,10 +1,8 @@
 <?php include_once "../../config.php"; ?>
 
 // Global Variables
-var pos = 0;
 var sc_client_id = "<?php echo SOUNDCLOUD_API_KEY ?>";
 var current_track = null;
-var current_soundcloud_data = null;
 var apiurl = 'api';
 
 // Initialize Soundcloud API
@@ -22,11 +20,23 @@ function checkData(data) {
         })
         .jPlayer('play');
 
-        pos++;
-        updateViews(data,null);
+        updateViews(data);
+        return;
       }
       
       if (data.type == "soundcloud" || data.type == "soundcloud_embed") {
+        if (data.stream_url && data.streamable) {
+          $('#player')
+            .jPlayer('setMedia', {
+              mp3: data.stream_url+"?client_id="+sc_client_id
+            })
+            .jPlayer('play');
+
+            updateViews(data);
+            return;
+        }
+      
+        // Failsafe if we don't have cached soundcloud-data in our db
         $.ajax({
           url:  'http://api.soundcloud.com/resolve.json',
           data: {
@@ -34,7 +44,6 @@ function checkData(data) {
             "client_id" : sc_client_id
           }, 
           success : function (soundcloud_data) {
-            //console.log(soundcloud_data);
             if (soundcloud_data && soundcloud_data.streamable == true) {
               $('#player')
               .jPlayer('setMedia', {
@@ -42,20 +51,19 @@ function checkData(data) {
               })
               .jPlayer('play');
 
-              pos++;
-              updateViews(data,soundcloud_data);
+              //data.soundcloud_data = soundcloud_data;
+	      data.artist = soundcloud_data.user.username;
+	      data.songtitle = soundcloud_data.title;
+              updateViews(data);
             } else {
-              pos++;
               getNext(false);
             }
           },
         statusCode: {
           404: function() {
-            pos++;
             getNext(false);
           }
         }
-        
         });
       }
     }
@@ -65,7 +73,6 @@ function getNext(skipped) {
   var current_track_id = (current_track ? current_track.id : "");
   
   $.get(apiurl+'/next', {
-    "pos": pos,
     "previous_track_id" : current_track_id,
     "skipped" : skipped,
     "forum_id": $("#filter_forum").val() 
@@ -81,9 +88,9 @@ function play(id) {
   }, function(data) { checkData(data) }, "json");
 }
 
-function updateViews(data,soundcloud_data) {
+function updateViews(data) {
+  // Keep a global reference to our current track
   current_track = data;
-  current_soundcloud_data = soundcloud_data;
   
   // Setting the values
   poster_name = data.poster_name;
@@ -92,11 +99,11 @@ function updateViews(data,soundcloud_data) {
   if (slash > -1) forum_name = data.forum_name.substr(slash+1);
   else            forum_name = data.forum_name;
   
-  if (soundcloud_data) {
-    songtitle = soundcloud_data.title;
-    artist    = soundcloud_data.user.username;
+  if (data.type != "mp3") {
+    songtitle = data.songtitle;
+    artist    = data.artist;
   } else {
-    songtitle = data.url.substring(data.url.lastIndexOf('/')+1, data.url.lastIndexOf('.mp3'));
+    songtitle = data.songtitle;
     artist    = "Unknown";
   }
   
@@ -104,6 +111,7 @@ function updateViews(data,soundcloud_data) {
   $("#song-title span")
   .fadeOut('fast').hide()
   .html(songtitle)
+  .attr('title', songtitle)
   .fadeIn('fast');
     
   $("#song-artist span")
@@ -141,8 +149,8 @@ function updateViews(data,soundcloud_data) {
   .fadeIn('fast');
   
   // Adding to playlist
-  playlistline = {"songtitle": '<a href="#" trackid="'+data.id+'" title="'+songtitle+'">'+songtitle+'</a>', 
-    "artist": artist, "poster_name": poster_name, "forum_name": forum_name};
+    playlistline = {"songtitle": '<a href="#" trackid="'+data.id+'" title="'+songtitle+'">'+songtitle+'</a>', 
+      "artist": artist, "poster_name": poster_name, "forum_name": forum_name};
   jQuery("#playlisttable").jqGrid('addRowData',0,playlistline);
   
   
@@ -159,7 +167,7 @@ $(document).ready(function(){
     },
     swfPath: "/js/jplayer",
     solution: "html,flash",
-    supplied: "mp3,oga"
+    supplied: "mp3"
   });
   
   // Fast forward button
