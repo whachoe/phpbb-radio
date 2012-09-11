@@ -14,7 +14,7 @@ The frontend and JSON-API are made using the [Silex Microframework](http://silex
 
 
 ### Important files:
-*    [db_config.php](db_config-sample.php): Holds the credentials to your phpbb-database (there's a sample file included: db_config-sample.php)
+*    db_config.php: Holds the credentials to your phpbb-database - there's a sample file included: [db_config-sample.php](db_config-sample.php)
 *    [config.php](config.php): Various configuration options. If you want to stream from soundcloud, be sure to get a [Soundcloud API Key](http://soundcloud.com/you/apps/ "Get Soundcloud API KEY") and set it in this file.
 *    [crawler.php](crawler.php): Connects to the mysql-database which hosts the phpbb-data, pulls out all the posts, parses them, checks the availability of the urls and finally saves them to Mongodb.
 *    [check_availability.php](check_availability.php): Checks an existing Mongodb and tests the availability of the urls that are stored inside.
