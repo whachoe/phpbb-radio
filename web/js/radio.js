@@ -2,11 +2,6 @@
 var current_track = null;
 var apiurl = 'api';
 
-// Initialize Soundcloud API
-SC.initialize({
-  client_id: sc_client_id
-});
-
 // This gets called when we get back a track from the backend
 function checkData(data) {
     if (data && data.url) {

@@ -1,6 +1,8 @@
 <?php
 namespace Radio;
 
+include_once __DIR__.'/../../config.php';
+
 class Track {
   var $collection;
 
@@ -104,7 +106,7 @@ class Track {
       '_id'              => $track['_id'],
       'url'              => $track['url'],
       'type'             => $track['type'],
-      'stream_url'       => $track['stream_url'],
+      'stream_url'       => $track['url'],
       'poster_name'      => $track['poster_name'],
       'forum_id'         => $track['forum_id'],
       'forum_name'       => $track['forum_name'],
@@ -112,23 +114,25 @@ class Track {
       'post_time'        => date("d M Y, h:i", $track['post_time']),
       'post_url'         => FORUM_URL.'/viewtopic.php?f='.$track['forum_id'].'&p='.$track['post_id'],
       'forum_url'        => FORUM_URL.'/viewforum.php?f='.$track['forum_id'],
+      'available'        => $track['available'],
     );
 
     switch ($track['type']) {
       case 'soundcloud_embed':
       case 'soundcloud' :
+        $toSend['type_img']   = 'img/type_soundcloud.png';
+      	$toSend['stream_url'] = $track['soundcloud_data']->stream_url;
       	$toSend['streamable'] = $track['soundcloud_data']->streamable;
-        $toSend['type_img']  = 'img/type_soundcloud.png';
-        $toSend['songtitle'] = $track['soundcloud_data']->title;
-        $toSend['artist']    = $track['soundcloud_data']->user->username;
+        $toSend['songtitle']  = $track['soundcloud_data']->title;
+        $toSend['artist']     = $track['soundcloud_data']->user->username;
         $toSend['soundcloud_api_key'] = SOUNDCLOUD_API_KEY;
       	break;
-      
+
       case 'mp3' :
       default:
-        $toSend['type_img'] = 'img/type_mp3.png';
-        $toSend['songtitle'] = str_replace(array('.mp3', '.ogg'), '', substr($toSend['url'], strrpos($toSend['url'], '/')));
-        $toSend['artist']    = 'Unknown';
+        $toSend['type_img']   = 'img/type_mp3.png';
+        $toSend['songtitle']  = str_replace(array('.mp3', '.ogg'), '', substr($toSend['url'], strrpos($toSend['url'], '/')+1));
+        $toSend['artist']     = 'Unknown';
         $toSend['stream_url'] = $toSend['url'];
         break;
     }
