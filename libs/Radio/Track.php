@@ -116,6 +116,7 @@ class Track {
     switch ($track['type']) {
       case 'soundcloud_embed':
       case 'soundcloud' : 
+      	$toSend['stream_url'] = $track['soundcloud_data']->stream_url;
       	$toSend['streamable'] = $track['soundcloud_data']->streamable;
 	$toSend['type_img']  = 'img/type_soundcloud.png';
 	$toSend['songtitle'] = $track['soundcloud_data']->title;
@@ -125,7 +126,7 @@ class Track {
       case 'mp3' : 
       default:  
         $toSend['type_img'] = 'img/type_mp3.png';
-	$toSend['songtitle'] = str_replace(array('.mp3', '.ogg'), '', substr($toSend['url'], strrpos($toSend['url'], '/')));
+	$toSend['songtitle'] = str_replace(array('.mp3', '.ogg'), '', substr($toSend['url'], strrpos($toSend['url'], '/')+1));
 	$toSend['artist']    = 'Unknown';
 	$toSend['stream_url'] = $toSend['url'];
         break;
