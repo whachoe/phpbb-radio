@@ -1,23 +1,23 @@
 <html>
   <head>
-    <title><?php echo SITE_TITLE ?></title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
-    <meta http-equiv="Content-Language" content="en-us"> 
+    <title><?php echo SITE_TITLE ?></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="en-us">
     <meta name="description" content="The Breakzforum.be Radio: Featuring the tracks posted on our forum">
 
     <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:400,600' rel='stylesheet' type='text/css'></link>
     <link href='http://fonts.googleapis.com/css?family=Russo+One' rel='stylesheet' type='text/css'></link>
     <link href="css/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" media="screen"  />
     <link href="js/jqgrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css" media="screen"  />
-    <link href="css/style.css" rel="stylesheet" type="text/css"></link>
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="screen"></link>
 
-    <script src="http://connect.soundcloud.com/sdk.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+    <script src="http://connect.soundcloud.com/sdk.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>
     <script src="js/jqgrid/js/i18n/grid.locale-en.js" type="text/javascript"></script>
     <script src="js/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
-    <script src="js/jplayer/jquery.jplayer.min.js"></script>
-    <script src="js/radio.js.php"></script>
+    <script src="js/jplayer/jquery.jplayer.min.js" type="text/javascript"></script>
+    <script src="js/radio.js" type="text/javascript"></script>
 
   </head>
   <body>
@@ -28,7 +28,7 @@
           <div id="song-title"><span>Song Title</span>&nbsp; </div>
           <div id="song-artist"><span>Artist</span>&nbsp; </div>
           <div id="poster">
-            <span id="posted_by_label">Posted by:</span> 
+            <span id="posted_by_label">Posted by:</span>
             <div id="post_link"><a href="#" target="_blank" title="Link to Post">cjpa</a> </div>
             <span>in </span> <div id="forum_link"><a href="#" target="_blank" title="Link to Forum">Dubstep</a> </div>
             <span>on</span> <span id="date_span">31 Aug 2012 08:49</span>
@@ -82,7 +82,7 @@
           <div id="filters_formwrapper">
             <form action="" method="POST">
               <?php echo $forum_selectbox; ?>
-            </form>  
+            </form>
             <center><a href="#">∨ Close ∨</a></center>
           </div>
         </div>
