@@ -46,3 +46,7 @@ location /
   
 ### Demo Site:
 http://radio.breakzforum.be
+
+### Android App:
+I also wrote an [Android Music Player](https://github.com/whachoe/phpbb-radio-android-client) that connects with this service and plays the music while you're on the go.
+I released the app on the market with as backend [radio.breakzforum.be](http://radio.breakzforum.be). You can find that one [here](https://play.google.com/store/apps/details?id=org.copywaste.breakzradio)
