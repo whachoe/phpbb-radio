@@ -19,7 +19,7 @@ The frontend and JSON-API are made using the [Silex Microframework](http://silex
 *    [crawler.php](crawler.php): Connects to the mysql-database which hosts the phpbb-data, pulls out all the posts, parses them, checks the availability of the urls and finally saves them to Mongodb.
 *    [check_availability.php](check_availability.php): Checks an existing Mongodb and tests the availability of the urls that are stored inside.
 *    [app/app.php](app/app.php): The web-frontend of the radio and implementation of the JSON-API
-*    [web/js/radio.js.php](web/js/radio.js.php): Contains all the javascript logic to get music from the API, play it and update the view dynamically
+*    [web/js/radio.js](web/js/radio.js): Contains all the javascript logic to get music from the API, play it and update the view dynamically
 *    [web/.htaccess](web/.htaccess): Needed for routing everything to index.php
                                                 
      If you run nginx, the following lines should replace the .htaccess:   
